@@ -6,7 +6,7 @@ import hu.alkfejl.model.WebappMSG;
 import java.util.List;
 
 public interface MessengDAO {
-    List<Messeng> findAllMessengBySenderAndReceiver(int sender, int receiver);
+    List<WebappMSG> findAllMessengBySenderAndReceiver(int sender, int receiver, int toWhat);
 
     List<WebappMSG> findAllMSGByReceiverAndToWhat(String receiver, int toWhat);
 

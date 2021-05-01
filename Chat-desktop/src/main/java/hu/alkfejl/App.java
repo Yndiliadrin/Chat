@@ -18,8 +18,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        UserDAO dao = new UserDAOImpl();
-        dao.findAllByInterest("diy").forEach(System.out::println);
+        MessengDAO dao = new MessengeDAOImpl();
+        dao.findAllMessengBySenderAndReceiver(1,4,0).forEach(System.out::println);
 
         var scene = new Scene(new StackPane(new Label("asdasd")), 640, 480);
         stage.setScene(scene);

@@ -63,9 +63,6 @@ public class MessengBoards extends HttpServlet {
                 InputStream inputStream = null;
                 Part filePart = req.getPart("img");
                 if (filePart != null) {
-                    //System.out.println(filePart.getName());
-                    //System.out.println(filePart.getSize());
-                    //System.out.println(filePart.getContentType());
                     inputStream = filePart.getInputStream();
                 }
                 Messeng messeng = new Messeng();

@@ -15,6 +15,7 @@ public class MessengeDAOImpl implements MessengDAO{
 
     private static final String SELECT_MSGS = "SELECT m.*, u.username FROM messeng m INNER JOIN user u ON m.sender = u.ID WHERE to_what =? AND receiver =?";
     private static final String INSERT_MESSENG = "INSERT INTO messeng(sender, receiver, type, textMessage, img, to_what) VALUES(?,?,?,?,?,?)";
+    private static final String SELECT_USER_MSGS = "SELECT m.*, u.username FROM messeng m INNER JOIN user u ON m.sender = u.ID WHERE m.to_what =? AND (sender=? AND receiver=?) OR (sender=? AND receiver=?) ORDER BY m.ID";
 
     private Properties props = new Properties();
     private static String connectionURL;
@@ -37,8 +38,51 @@ public class MessengeDAOImpl implements MessengDAO{
     }
 
     @Override
-    public List<Messeng> findAllMessengBySenderAndReceiver(int sender, int receiver) {
-        return null;
+    public List<WebappMSG> findAllMessengBySenderAndReceiver(int sender, int receiver, int toWhat) {
+        System.out.println(sender);
+        System.out.println(receiver);
+        System.out.println(toWhat);
+        List<WebappMSG> result = new ArrayList<>();
+        try {
+            this.setConnectionAndStatement(SELECT_USER_MSGS);
+            stmt.setString(1, String.valueOf(toWhat));
+            stmt.setString(2, String.valueOf(receiver));
+            stmt.setString(3, String.valueOf(sender));
+            stmt.setString(4, String.valueOf(sender));
+            stmt.setString(5, String.valueOf(receiver));
+            ResultSet res = stmt.executeQuery();
+            while (res.next()){
+                System.out.println("nyeh");
+                WebappMSG msg = new WebappMSG();
+                Messeng tmpMsg = new Messeng();
+                tmpMsg.setID(res.getInt("ID"));
+                tmpMsg.setSender(res.getInt("sender"));
+                tmpMsg.setReceiver(res.getInt("receiver"));
+                tmpMsg.setType(res.getString("type"));
+                tmpMsg.setMesseng(res.getString("textMessage"));
+                tmpMsg.setImg(res.getBytes("img"));
+                tmpMsg.setTo_what(res.getInt("to_what"));
+                msg.setMesseng(tmpMsg);
+                msg.setSender(res.getString("username"));
+
+                result.add(msg);
+            }
+            System.out.println(result.size());
+        } catch (SQLException throwables){
+            throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     @Override

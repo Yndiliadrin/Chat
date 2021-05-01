@@ -151,9 +151,11 @@
                         break;
                 }
                 for (User user : users) {
-                    out.println("<form action='msg' method='post'>");
-                    out.println("<button name=\"felh\" id=\"regiszt-btn\" type=\"submit\" class=\"btn btn-form btn-choose\" value=\"" + user.getID() + "\">" + user.getUsername() + "</button>");
-                    out.println("<form>");
+                    if (!user.getUsername().equals(String.valueOf(session.getAttribute("username")))) {
+                        out.println("<form action='msg' method='post'>");
+                        out.println("<button name=\"felh\" id=\"regiszt-btn\" type=\"submit\" class=\"btn btn-form btn-choose\" value=\"" + user.getID() + "\">" + user.getUsername() + "</button>");
+                        out.println("<form>");
+                    }
                 }
             } else {
                 System.err.println("Hibatörtént");
@@ -169,7 +171,12 @@
         MessengDAO dao = new MessengeDAOImpl();
         String id = (String) session.getAttribute("msBID");
         System.out.println((session.getAttribute("child").equals("rooms") ? 0 : 1));
-        List<WebappMSG> msgs = dao.findAllMSGByReceiverAndToWhat(id,((session.getAttribute("child").equals("rooms")) ? 1 : 0 ));
+        List<WebappMSG> msgs;
+        if (session.getAttribute("child").equals("rooms")) {
+            msgs = dao.findAllMSGByReceiverAndToWhat(id,1);
+        } else {
+            msgs = dao.findAllMessengBySenderAndReceiver(Integer.parseInt(id),Integer.parseInt(String.valueOf(session.getAttribute("uID"))),0);
+        }
         out.println("<div class=\"msgBoardContainer\">");
         for (WebappMSG msg : msgs) {
             if (msg.getSender().equals(session.getAttribute("username"))){
@@ -207,7 +214,7 @@
                     out.println(
                             "<div class=\"msgBoard\">" +
                                     "<p> &lt; <label class='notmine'>\n" + msg.getSender() + "</label> &gt; : <br>" +
-                                        "<img src=\\\"\"+url+\"\\\" alt=\"img\" width=\"300\" height=\"300\">" +
+                                        "<img src=\""+url+"\" alt=\"img\" width=\"300\" height=\"300\">" +
                                     "</p>" +
                                     "<hr>" +
                             "</div>\n"
