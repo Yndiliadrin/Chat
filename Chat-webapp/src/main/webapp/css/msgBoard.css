@@ -1,0 +1,71 @@
+.msgBoardContainer {
+    margin-left: 20%;
+    height: 100%;
+    background-color: #212227;
+}
+
+.msgBoard {
+    width: 100%;
+    height: 100%;
+    background-color: #212227;
+}
+
+.msgField {
+    position: fixed;
+    width: 80%;
+    bottom:   0;
+    color: black;
+    margin-left: 20%;
+    background-color: white;
+}
+
+
+.mine {
+    color: yellow;
+}
+
+.notmine {
+    color: red;
+}
+
+.button {
+    width: 3%;
+    border-radius: 50%;
+}
+
+#msg-textfield {
+    width: 94%;
+    color: black;
+    background-color: #FFFFFF;
+}
+
+
+input[type=file] {
+    background-color: gray;
+    color: white;
+    width: 3%;
+    border-radius: 50%;
+}
+
+#file_field::-webkit-file-upload-button {
+    visibility: hidden;
+}
+#file_field::before {
+    content: '+';
+    display: inline-block;
+    border: none;
+    padding-left: 35%;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
+#file_field:hover::before {
+    border-color: black;
+}
+#file_field:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}

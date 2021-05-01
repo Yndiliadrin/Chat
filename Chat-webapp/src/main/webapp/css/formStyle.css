@@ -1,0 +1,14 @@
+.btn-form{
+    display: inline-block;
+    width: 100%;
+}
+
+.center {
+    border: 3px solid #c1eeff;
+    border-radius: 3px;
+}
+
+#errorMsg {
+    color: red;
+    font-size: small;
+}

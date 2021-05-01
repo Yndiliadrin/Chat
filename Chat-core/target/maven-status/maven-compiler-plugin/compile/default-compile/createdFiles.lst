@@ -1,0 +1,10 @@
+hu/alkfejl/model/Messeng.class
+hu/alkfejl/dao/MessengDAO.class
+hu/alkfejl/model/User.class
+hu/alkfejl/model/Room.class
+hu/alkfejl/dao/UserDAOImpl.class
+hu/alkfejl/dao/MessengeDAOImpl.class
+hu/alkfejl/dao/RoomDAO.class
+hu/alkfejl/dao/UserDAO.class
+hu/alkfejl/model/WebappMSG.class
+hu/alkfejl/dao/RoomDAOImpl.class

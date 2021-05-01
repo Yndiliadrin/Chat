@@ -1,0 +1,61 @@
+#condition {
+    width: 100%;
+}
+
+#selector {
+    width: 100%;
+}
+
+#kategori {
+    width: 100%;
+}
+
+#search-btn {
+    width: 100%;
+}
+
+#ageSelector {
+    width: 100%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input {
+    color: #FFFFFF;
+    background-color: #668586;
+    border: none;
+    border-bottom: 3px solid darkslategray;
+}
+
+select {
+    border: none;
+    background-color: #668586;
+}
+
+#gender {
+    background-color: #668586;
+    color: #FFFFFF;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #FFFFFF;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #FFFFFF;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #FFFFFF;
+}

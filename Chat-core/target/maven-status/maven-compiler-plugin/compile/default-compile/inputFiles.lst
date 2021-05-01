@@ -1,0 +1,10 @@
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/model/Messeng.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/UserDAOImpl.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/model/WebappMSG.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/MessengeDAOImpl.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/MessengDAO.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/model/User.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/UserDAO.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/RoomDAO.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/dao/RoomDAOImpl.java
+/home/berberus/Asztal/Chat/Chat-core/src/main/java/hu/alkfejl/model/Room.java
