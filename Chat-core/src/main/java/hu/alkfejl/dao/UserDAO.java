@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserDAO {
 
     List<User> findAll();
+    User findUser(String username, String pass);
     List<User> findUserByName(String username);
     List<User> findAllByInterest(String inter);
     List<User> findAllByInterestAndGender(String inter, String gender);

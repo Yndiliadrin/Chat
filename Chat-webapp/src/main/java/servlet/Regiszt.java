@@ -1,9 +1,6 @@
 package servlet;
 
-import Controller.DBController;
 import Controller.Encrypt;
-import Controller.UserController;
-import Controller.UserControllerImpl;
 import hu.alkfejl.dao.UserDAO;
 import hu.alkfejl.dao.UserDAOImpl;
 import hu.alkfejl.model.User;
@@ -16,16 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/regiszt")
 public class Regiszt extends HttpServlet {
 
-    private UserController uController;
     private Encrypt encrypt;
+    private UserDAO dao;
 
     public Regiszt() {
-        uController = new UserControllerImpl();
         encrypt = new Encrypt();
+        dao = new UserDAOImpl();
     }
 
     @Override
@@ -40,9 +39,11 @@ public class Regiszt extends HttpServlet {
         resp.setContentType("text/html");
         req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
+        List<User> k = new ArrayList<>();
         if (req.getParameter("reg") != null) {
+            k = dao.findUserByName(String.valueOf(req.getParameter("uname")));
             if (req.getParameter("pass").equals(req.getParameter("pass2"))
-                    && uController.isExists(req.getParameter("uname")) ) {
+                    && k.size() <= 0 ) {
                 User user = new User();
                 user.setUsername(req.getParameter("uname"));
                 user.setPassword(encrypt.encryptIt(req.getParameter("pass")));
@@ -50,10 +51,9 @@ public class Regiszt extends HttpServlet {
                 user.setGender(req.getParameter("gender"));
                 user.setInterest(req.getParameter("interest"));
                 user.setRole(0);
-                this.uController.regiszt(user);
+                User u = this.dao.save(user);
                 resp.sendRedirect("login");
-            } else if ( !uController.isExists(req.getParameter("uname"))) {
-                //out.println("Felhasználónév foglalt");
+            } else if ( k.size() >= 0) {
                 out.println("<script type =\"text/javascript\">\n" +
                         "            window.onload = function() {\n" +
                         "            what();\n" +

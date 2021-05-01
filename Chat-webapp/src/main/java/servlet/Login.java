@@ -1,8 +1,8 @@
 package servlet;
 
 import Controller.Encrypt;
-import Controller.UserController;
-import Controller.UserControllerImpl;
+import hu.alkfejl.dao.UserDAO;
+import hu.alkfejl.dao.UserDAOImpl;
 import hu.alkfejl.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -17,8 +17,12 @@ import java.io.IOException;
 @WebServlet("/login")
 public class Login extends HttpServlet {
 
-    private UserController userController = new UserControllerImpl();
     private Encrypt encrypt = new Encrypt();
+    private UserDAO dao;
+
+    public Login() {
+        dao = new UserDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +34,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (req.getParameter("log") != null) {
-            User user = userController.login(req.getParameter("uname"), encrypt.encryptIt(req.getParameter("pass")));
+            User user = dao.findUser(req.getParameter("uname"), encrypt.encryptIt(req.getParameter("pass")));
             if (user != null) {
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("uID", user.getID());
@@ -39,6 +43,8 @@ public class Login extends HttpServlet {
                 session.setAttribute("query", 1);
                 System.out.println("session created " + (String) session.getAttribute("username"));
                 resp.sendRedirect("home");
+            } else {
+                resp.sendRedirect("login");
             }
         } else if (req.getParameter("reg") != null) {
             resp.sendRedirect("regiszt");

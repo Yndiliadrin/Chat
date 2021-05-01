@@ -11,6 +11,7 @@ import java.util.Properties;
 public class UserDAOImpl implements UserDAO{
 
     private static final String SELECT_ALL_USER = "Select * FROM user";
+    private static final String SELECT_USER_BY_NAME_AND_PASS = "SELECT * FROM user WHERE username=? AND password=?";
     private static final String SELECT_ALL_USER_BY_NAME = "Select * FROM user WHERE username=?";
     private static final String SELECT_ALL_USER_BY_INTEREST = "SELECT * FROM user WHERE interest=?";
     private static final String SELECT_ALL_USER_BY_AGE = "SELECT * FROM user WHERE age=?";
@@ -60,6 +61,42 @@ public class UserDAOImpl implements UserDAO{
                 user.setRole(res.getInt("role"));
 
                 result.add(user);
+            }
+
+        } catch (SQLException throwables){
+            throwables.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public User findUser(String username, String pass){
+        User result = null;
+        try {
+            this.setConnectionAndStatement(SELECT_USER_BY_NAME_AND_PASS);
+            stmt.setString(1, username);
+            stmt.setString(2, pass);
+            ResultSet res = stmt.executeQuery();
+            while (res.next()){
+                User user = new User();
+                user.setID(res.getInt("ID"));
+                user.setUsername(res.getString("username"));
+                user.setPassword(res.getString("password"));
+                user.setAge(res.getInt("age"));
+                user.setGender(res.getString("gender"));
+                user.setInterest(res.getString("interest"));
+                user.setRole(res.getInt("role"));
+                result = user;
             }
 
         } catch (SQLException throwables){
@@ -173,7 +210,7 @@ public class UserDAOImpl implements UserDAO{
 
         } catch (SQLException throwables){
             throwables.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
@@ -402,6 +439,16 @@ public class UserDAOImpl implements UserDAO{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return  null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return user;
