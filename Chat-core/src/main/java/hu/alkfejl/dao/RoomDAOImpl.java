@@ -1,5 +1,6 @@
 package hu.alkfejl.dao;
 
+import hu.alkfejl.model.Messeng;
 import hu.alkfejl.model.Room;
 
 import java.io.IOException;
@@ -10,10 +11,13 @@ import java.util.Properties;
 
 public class RoomDAOImpl implements RoomDAO{
 
+    private static final String DELETE_ROOM = "DELETE FROM room WHERE ID=?";
+    private static final String INSERT_ROOM = "INSERT INTO room(name, rules, kategori) VALUES (?,?,?)";
     private Properties props = new Properties();
     private static String connectionURL;
     private Connection con;
     private PreparedStatement stmt;
+    private MessengDAO messengDAO = new MessengeDAOImpl();
 
     private static final String SELECT_ROOMS_BY_NAME_AND_KATEGORI = "SELECT * FROM room WHERE kategori=? AND name=?";
     private static final String SELECT_ROOMS_BY_KATEGORI = "SELECT * FROM room WHERE kategori=?";
@@ -192,11 +196,63 @@ public class RoomDAOImpl implements RoomDAO{
 
     @Override
     public Room save(Room room) {
-        return null;
+        if (this.findRoomByName(room.getName()).size()>=1) {
+            return null;
+        }
+        try(Connection c = DriverManager.getConnection(props.getProperty("db.url"));
+            PreparedStatement stmt = c.prepareStatement(INSERT_ROOM, Statement.RETURN_GENERATED_KEYS);
+        ){
+
+            stmt.setString(1,room.getName());
+            stmt.setString(2, room.getRules());
+            stmt.setString(3, room.getKategori());
+
+
+            if (stmt.executeUpdate() != 1) {
+                return null;
+            }
+
+            if(room.getID() <= 0) {
+                ResultSet genKey = stmt.getGeneratedKeys();
+                if (genKey.next()) {
+                    room.setID(genKey.getInt(1));
+                }
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return  null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        Messeng initmsg = new Messeng();
+        initmsg.setSender(1);
+        initmsg.setReceiver(room.getID());
+        initmsg.setType("text");
+        initmsg.setMesseng(room.getRules());
+        initmsg.setImg(null);
+        initmsg.setTo_what(1);
+        messengDAO.insertMSG(initmsg);
+        return room;
     }
 
     @Override
     public void delete(Room room) {
-
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(DELETE_ROOM)
+        ) {
+            stmt.setInt(1, room.getID());
+            stmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

@@ -1,10 +1,8 @@
 package hu.alkfejl.dao;
 
 import hu.alkfejl.model.Messeng;
-import hu.alkfejl.model.Room;
 import hu.alkfejl.model.WebappMSG;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;

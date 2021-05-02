@@ -168,7 +168,6 @@
     if (session.getAttribute("msBID") != null) {
         MessengDAO dao = new MessengeDAOImpl();
         String id = (String) session.getAttribute("msBID");
-        System.out.println((session.getAttribute("child").equals("rooms") ? 0 : 1));
         List<WebappMSG> msgs;
         if (session.getAttribute("child").equals("rooms")) {
             msgs = dao.findAllMSGByReceiverAndToWhat(id,1);

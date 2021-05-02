@@ -24,9 +24,10 @@ public class Encrypt {
      */
     public String encryptIt(String pass) {
         if(regex(pass)) {
-            System.out.println("Jó jelszó");
+            //System.out.println("Jó jelszó");
         } else {
-            System.out.println("Rossz jelszó");
+            //System.out.println("Rossz jelszó");
+            return "x";
         }
         try {
             pass+=this.salt;

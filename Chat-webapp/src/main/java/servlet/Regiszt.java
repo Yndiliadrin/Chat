@@ -43,7 +43,8 @@ public class Regiszt extends HttpServlet {
         if (req.getParameter("reg") != null) {
             k = dao.findUserByName(String.valueOf(req.getParameter("uname")));
             if (req.getParameter("pass").equals(req.getParameter("pass2"))
-                    && k.size() <= 0 ) {
+                    && k.size() <= 0
+            && !encrypt.encryptIt(String.valueOf(req.getParameter("pass"))).equals("x")) {
                 User user = new User();
                 user.setUsername(req.getParameter("uname"));
                 user.setPassword(encrypt.encryptIt(req.getParameter("pass")));
@@ -53,7 +54,7 @@ public class Regiszt extends HttpServlet {
                 user.setRole(0);
                 User u = this.dao.save(user);
                 resp.sendRedirect("login");
-            } else if ( k.size() >= 0) {
+            } else if ( k.size() >= 1) {
                 out.println("<script type =\"text/javascript\">\n" +
                         "            window.onload = function() {\n" +
                         "            what();\n" +
@@ -69,7 +70,7 @@ public class Regiszt extends HttpServlet {
                         "            window.onload = function() {\n" +
                         "            what();\n" +
                         "            function what(){\n" +
-                        "                document.getElementById('errorMsg').innerHTML = 'A jelszónak tartalmaznia kell legalább 1 kisbetűt, 1 nagybetűt és egy számot!';\n" +
+                        "                document.getElementById('errorMsg').innerHTML = 'A jelszónak tartalmaznia kell legalább 1 kisbetut, 1 nagybetut és egy szamot!';\n" +
                         "            };\n" +
                         "        }\n" +
                         "        </script>");

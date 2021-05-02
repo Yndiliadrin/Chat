@@ -57,7 +57,6 @@ public class MessengBoards extends HttpServlet {
                 messeng.setImg(null);
                 int toWhat = (session.getAttribute("child").equals("rooms") ? 1 : 0);
                 messeng.setTo_what(toWhat);
-                //System.out.println("'"+messeng.getMesseng()+"'"+" üzenet küldése a(z) " + req.getParameter("send") + "-es ID-ra | type: "+messeng.getType());
                 dao.insertMSG(messeng);
             } else if (req.getPart("img") != null) {
                 InputStream inputStream = null;
@@ -73,10 +72,8 @@ public class MessengBoards extends HttpServlet {
                 messeng.setImg(this.toByteArray(inputStream));
                 int toWhat = (session.getAttribute("child").equals("rooms") ? 1 : 0);
                 messeng.setTo_what(toWhat);
-                //System.out.println("Kép küldése a(z) " + req.getParameter("send") + "-es ID-ra | type: "+messeng.getType());
                 dao.insertMSG(messeng);
             } else if (!req.getParameter("msg").equals("")) {
-                System.out.println("Üzenet küldése a(z) " + req.getParameter("send") + "-es ID-ra");
                 Messeng messeng = new Messeng();
                 messeng.setSender(Integer.parseInt(String.valueOf(session.getAttribute("uID"))));
                 messeng.setReceiver(Integer.parseInt(String.valueOf(session.getAttribute("msBID"))));
