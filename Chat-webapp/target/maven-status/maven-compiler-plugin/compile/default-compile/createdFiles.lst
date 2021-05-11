@@ -1,1 +1,6 @@
+servlet/MessengBoards.class
 Controller/Encrypt.class
+servlet/Login.class
+servlet/Search.class
+servlet/Regiszt.class
+servlet/Actualizator.class
